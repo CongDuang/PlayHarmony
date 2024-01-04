@@ -1,0 +1,32 @@
+{
+  "color": [
+    {
+      "name": "start_window_background",
+      "value": "#FFFFFF"
+    },
+    {
+      "name": "select_color",
+      "value": "#25C84C"
+    },
+    {
+      "name": "normal_color",
+      "value": "#D1D1D1"
+    },
+    {
+      "name": "home_bottom_bg_color",
+      "value": "#272727"
+    },
+    {
+      "name": "home_bottom_mask_start",
+      "value": "#00F7F7F7"
+    },
+    {
+      "name": "home_bottom_mask_end",
+      "value": "#F7F7F7"
+    },
+    {
+      "name": "color_background",
+      "value": "#F4F4F4"
+    }
+  ]
+}

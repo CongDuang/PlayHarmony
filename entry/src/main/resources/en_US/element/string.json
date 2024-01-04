@@ -1,0 +1,32 @@
+{
+  "string": [
+    {
+      "name": "module_desc",
+      "value": "module description"
+    },
+    {
+      "name": "EntryAbility_desc",
+      "value": "description"
+    },
+    {
+      "name": "EntryAbility_label",
+      "value": "PlayHarmony"
+    },
+    {
+      "name": "home_page",
+      "value": "Home"
+    },
+    {
+      "name": "project_page",
+      "value": "Project"
+    },
+    {
+      "name": "official_page",
+      "value": "Official"
+    },
+    {
+      "name": "mine_page",
+      "value": "Mine"
+    }
+  ]
+}

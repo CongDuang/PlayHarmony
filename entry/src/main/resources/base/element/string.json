@@ -1,0 +1,32 @@
+{
+  "string": [
+    {
+      "name": "module_desc",
+      "value": "module description"
+    },
+    {
+      "name": "EntryAbility_desc",
+      "value": "description"
+    },
+    {
+      "name": "EntryAbility_label",
+      "value": "玩鸿蒙"
+    },
+    {
+      "name": "home_page",
+      "value": "首页"
+    },
+    {
+      "name": "project_page",
+      "value": "项目"
+    },
+    {
+      "name": "official_page",
+      "value": "公众号"
+    },
+    {
+      "name": "mine_page",
+      "value": "我的"
+    }
+  ]
+}
