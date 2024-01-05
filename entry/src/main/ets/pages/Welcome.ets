@@ -6,7 +6,7 @@ export struct Welcome {
   onPageShow() {
     setTimeout(() => {
       router.replaceUrl({
-        url: 'pages/Index',
+        url: 'pages/index/Index',
       })
     }, 500)
   }

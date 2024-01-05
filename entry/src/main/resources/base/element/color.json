@@ -2,7 +2,7 @@
   "color": [
     {
       "name": "start_window_background",
-      "value": "#FFFFFF"
+      "value": "#F4F4F4"
     },
     {
       "name": "select_color",
@@ -27,6 +27,22 @@
     {
       "name": "color_background",
       "value": "#F4F4F4"
+    },
+    {
+      "name": "article_bg",
+      "value": "#FDFDFD"
+    },
+    {
+      "name": "text_color",
+      "value": "#5A5A5A"
+    },
+    {
+      "name": "red_btn_bg_color",
+      "value": "#DD6B55"
+    },
+    {
+      "name": "text_color_black",
+      "value": "#202020"
     }
   ]
 }

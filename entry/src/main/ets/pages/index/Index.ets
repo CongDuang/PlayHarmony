@@ -1,3 +1,5 @@
+import { Home } from './Home';
+
 class TabBar {
   title: Resource;
   selectedImg: Resource;
@@ -49,6 +51,9 @@ struct Index {
     })
   }
 
+  /**
+   * 构建第一页
+   */
   @Builder
   tabsBuilder() {
     Tabs({
@@ -56,8 +61,7 @@ struct Index {
       controller: this.tabsController
     }) {
       TabContent() {
-        Text("0").fontSize(30)
-          .fontColor(Color.Black)
+        Home()
       }
       .tabIndex(0)
 
@@ -117,6 +121,7 @@ struct Index {
       }
       .width('100%')
     }
+    .backgroundColor($r('app.color.color_background'))
     .height('100%')
   }
 }
