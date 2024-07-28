@@ -1,5 +1,6 @@
 import CommonConstants from '../../common/constants/CommonConstants'
 import MainPageTypeModel from '../../viewmodel/MainPageTypeModel'
+import { HomeView } from './view/HomeView';
 
 
 @Entry
@@ -12,20 +13,14 @@ struct MainPage {
     Stack({ alignContent: Alignment.Bottom }) {
       Tabs({ controller: this.tabController, index: this.currentIndex }) {
         ForEach(CommonConstants.TabBars_DEFAULT_MAIN_PAGE_TYPES, (item: MainPageTypeModel) => {
-          if (item.name === 'home') {
-            TabContent() {
+          TabContent() {
+            if (item.name === 'home') {
+              HomeView()
+            } else if (item.name === 'project') {
               Text(item.content)
-            }
-          } else if (item.name === 'project') {
-            TabContent() {
+            } else if (item.name === 'official_account') {
               Text(item.content)
-            }
-          } else if (item.name === 'official_account') {
-            TabContent() {
-              Text(item.content)
-            }
-          } else {
-            TabContent() {
+            } else {
               Text(item.content)
             }
           }

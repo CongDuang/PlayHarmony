@@ -26,7 +26,7 @@ export default class CommonConstants {
     {
       id: 3,
       name: "mine",
-      content: "首页",
+      content: "我的",
       icon: $r('app.media.tab_bar_mine'),
       selectedIcon: $r('app.media.tab_bar_selected_mine'),
     },
