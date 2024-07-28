@@ -1,0 +1,6 @@
+{
+  "src": [
+    "pages/WelcomePage",
+    "pages/main/MainPage"
+  ]
+}
