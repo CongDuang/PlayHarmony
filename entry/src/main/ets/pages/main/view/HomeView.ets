@@ -2,7 +2,9 @@
 export struct HomeView {
   build() {
     Column() {
-      Text("首页1")
+      Row(){
+        
+      }
     }
   }
 }

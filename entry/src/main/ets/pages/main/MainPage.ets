@@ -3,11 +3,14 @@ import MainPageTypeModel from '../../viewmodel/MainPageTypeModel'
 import { HomeView } from './view/HomeView';
 
 
-@Entry
+let storage = LocalStorage.getShared();
+
+@Entry(storage)
 @Component
 struct MainPage {
   tabController = new TabsController();
   @State currentIndex: number = 0;
+  bottomRectHeight: string = AppStorage.get<number>('bottomRectHeight') + 'px';
 
   build() {
     Stack({ alignContent: Alignment.Bottom }) {
@@ -55,6 +58,7 @@ struct MainPage {
         .borderRadius(15)
         .backgroundColor($r("app.color.main_tab_bar_bg_color"))
       }.width('100%')
+      // .padding({ bottom: this.bottomRectHeight })
     }
   }
 }
