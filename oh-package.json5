@@ -2,6 +2,7 @@
   "modelVersion": "5.0.0",
   "description": "Please describe the basic information.",
   "dependencies": {
+    "@ohos/axios": "^2.2.2"
   },
   "devDependencies": {
     "@ohos/hypium": "1.0.18",
