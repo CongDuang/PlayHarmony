@@ -1,12 +1,12 @@
 {
   "color": [
     {
-      "name": "primary_color",
-      "value": "#25C84C"
+      "name": "start_window_background",
+      "value": "#F4F4F4"
     },
     {
-      "name": "start_window_background",
-      "value": "#FFFFFF"
+      "name": "primary_color",
+      "value": "#25C84C"
     },
     {
       "name": "main_tab_bar_bg_color",
@@ -23,6 +23,22 @@
     {
       "name": "white",
       "value": "#FFFFFF"
+    },
+    {
+      "name": "text_color",
+      "value": "#5A5A5A"
+    },
+    {
+      "name": "text_color_black",
+      "value": "#202020"
+    },
+    {
+      "name": "red_btn_bg_color",
+      "value": "#DD6B55"
+    },
+    {
+      "name": "article_bg",
+      "value": "#FDFDFD"
     }
   ]
 }

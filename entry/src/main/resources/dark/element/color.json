@@ -23,6 +23,22 @@
     {
       "name": "white",
       "value": "#CACACA"
+    },
+    {
+      "name": "text_color",
+      "value": "#F1F1F1"
+    },
+    {
+      "name": "text_color_black",
+      "value": "#B5B5B5"
+    },
+    {
+      "name": "red_btn_bg_color",
+      "value": "#DD6B55"
+    },
+    {
+      "name": "article_bg",
+      "value": "#232222"
     }
   ]
 }
