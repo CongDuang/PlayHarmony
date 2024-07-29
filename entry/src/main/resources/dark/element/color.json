@@ -1,6 +1,10 @@
 {
   "color": [
     {
+      "name": "primary_color",
+      "value": "#000000"
+    },
+    {
       "name": "start_window_background",
       "value": "#000000"
     },
@@ -15,6 +19,10 @@
     {
       "name": "main_tab_bar_text_selected_color",
       "value": "#25C84C"
+    },
+    {
+      "name": "white",
+      "value": "#CACACA"
     }
   ]
 }
