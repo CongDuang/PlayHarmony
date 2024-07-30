@@ -136,16 +136,19 @@ export struct HomeView {
           }
         }
         .padding(10)
-        .margin({ left: 10, right: 10 })
         .borderRadius(6)
-        // .backgroundColor($r('app.color.article_bg'))
-        .backgroundColor(Color.Red)
+        .backgroundColor($r('app.color.article_bg'))
+        .margin({
+          top: index === 0 ? 10 : 0,
+          bottom: index === this.homeArticleList.length - 1 ? 10 : 0,
+          left: 10,
+          right: 10
+        })
       })
     }
     .scrollBar(BarState.Off)
     .width('100%')
     .height('100%')
-    .margin({ top: 10 })
     .edgeEffect(EdgeEffect.None)
   }
 
