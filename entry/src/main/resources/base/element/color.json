@@ -33,12 +33,28 @@
       "value": "#202020"
     },
     {
+      "name": "text_color_dark",
+      "value": "#464646"
+    },
+    {
       "name": "red_btn_bg_color",
       "value": "#DD6B55"
     },
     {
       "name": "article_bg",
       "value": "#FDFDFD"
+    },
+    {
+      "name": "gray_white",
+      "value": "#E9E5E5"
+    },
+    {
+      "name": "profile_color",
+      "value": "#000000"
+    },
+    {
+      "name": "btn_exit_login",
+      "value": "#FA2525"
     }
   ]
 }
