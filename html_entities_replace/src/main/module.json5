@@ -1,0 +1,12 @@
+{
+  "module": {
+    "name": "html_entities_replace",
+    "type": "har",
+    "deviceTypes": [
+      "default",
+      "tablet",
+      "2in1",
+      "car"
+    ]
+  }
+}

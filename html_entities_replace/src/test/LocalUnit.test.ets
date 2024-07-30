@@ -1,4 +1,7 @@
 import { describe, beforeAll, beforeEach, afterEach, afterAll, it, expect } from '@ohos/hypium';
+import { HashMap, JSON } from '@kit.ArkTS';
+import json from '../main/resources/rawfile/decode-map.json';
+import { HtmlEntityReplace } from '../../Index';
 
 export default function localUnitTest() {
   describe('localUnitTest', () => {
@@ -29,9 +32,8 @@ export default function localUnitTest() {
       expect(a).assertContain(b);
       expect(a).assertEqual(a);
 
-      const s = '这是一个包含 &ldquo; &rdquo;的字符串。';
-      const replacedString = s.replace(/\\u201C|\\u201D/g, '\"');  // 替换为左双引号 “ 或 ”
-      console.log(replacedString);  // 输出：这是一个包含 " 的字符串。
+      let inputString: string = 'Android &ldquo;edge to edge&rdquo;特性-官方&ldquo;沉浸式&rdquo;方案实探';
+      console.log(HtmlEntityReplace.replace(inputString));
     });
   });
 }

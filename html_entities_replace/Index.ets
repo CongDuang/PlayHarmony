@@ -1,0 +1,1 @@
+export { HtmlEntityReplace } from './src/main/ets//HtmEntityReplace'

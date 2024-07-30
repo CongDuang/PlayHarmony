@@ -1,0 +1,20 @@
+{
+  "name": "html_entities_replace",
+  "version": "1.0.0",
+  "description": "替换HTML字符串中存在的符号实体引用，为正确的符号",
+  "main": "Index.ets",
+  "author": "congduantools",
+  "license": "Apache-2.0",
+  "compatibleSdkType": "OpenHarmony",
+  "compatibleSdkVersion": "12",
+  "obfuscated": false,
+  "keywords": [
+    "html",
+    "string",
+    "entities",
+    "he",
+    "symbol",
+    "replace"
+  ],
+  "dependencies": {}
+}

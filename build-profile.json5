@@ -30,6 +30,10 @@
           ]
         }
       ]
+    },
+    {
+      "name": "html_entities_replace",
+      "srcPath": "./html_entities_replace"
     }
   ]
 }

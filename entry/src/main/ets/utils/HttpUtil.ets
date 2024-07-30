@@ -19,11 +19,15 @@ export default class HttpUtil {
     })
 
     HttpUtil.axiosInstance.interceptors.request.use((config: InternalAxiosRequestConfig) => {
-      Logger.debug(`发送请求 ==================> ${'\n'} method${config.method} ${config.baseURL} ${'\n'} url: ${config.url}`)
-      Logger.debug('请求数据：', config.data);
+      Logger.debug(`发送请求 ==================>`,
+        `${'\n'} method：${config.method} ${config.baseURL} ${'\n'} url: ${config.url}`)
+      Logger.debug('请求参数', config.data ?? "无");
       return config;
     }, (error: AxiosError) => {
       Logger.error('请求错误：', JSON.stringify(error));
+      if (error.status === 400) {
+        return Promise.resolve(new BaseResp(error.status, error.stack ?? "", null))
+      }
       return Promise.reject(error);
     })
 

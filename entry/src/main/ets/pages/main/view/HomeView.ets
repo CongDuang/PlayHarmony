@@ -1,17 +1,24 @@
 import HttpUtil from '../../../utils/HttpUtil'
 import { TitleBar } from '../../../widgets/TitleBar'
-import BaseResp, { ErroCode } from '../../../models/BaseResp'
+import BaseResp, { ErroCode, PageInlineResp } from '../../../models/BaseResp'
 import { HomeBannerModel } from '../../../viewmodel/HomeBannerModel'
 import { PullToRefresh } from '@ohos/pulltorefresh'
+import { ArticleModel } from '../../../viewmodel/ArticleModel'
+import { HtmlEntityReplace } from 'html_entities_replace';
 
 @Preview
 @Component
 export struct HomeView {
   @State banners: HomeBannerModel[] = [];
   private scroller: Scroller = new Scroller();
+  @State page: number = 0;
+  @State homeArticleList: ArticleModel[] = [];
 
-  async aboutToAppear() {
-    await this.getBannerData();
+  aboutToAppear() {
+    // banner数据
+    this.getBannerData();
+    // 列表数据
+    this.getHomeListData(0);
   }
 
   /**
@@ -20,20 +27,55 @@ export struct HomeView {
   async getBannerData() {
     const resp: BaseResp<HomeBannerModel[]> =
       await HttpUtil.getInstance().get<HomeBannerModel[], undefined>('/banner/json');
-    if (resp.errorCode == ErroCode.OK && resp.data) {
+    if (resp.errorCode === ErroCode.OK && resp.data) {
       this.banners = resp.data!;
     }
+  }
+
+  /**
+   * 获取首页列表数据
+   * @param page 页码
+   * @returns
+   */
+  async getHomeListData(page: number): Promise<boolean> {
+    let topArticleList: ArticleModel[] = [];
+    if (page === 0) {
+      const topArticleResp = await HttpUtil.getInstance().get<ArticleModel[], undefined>('/article/top/json')
+      if (topArticleResp.errorCode === ErroCode.OK && topArticleResp.data) {
+        topArticleList = topArticleResp.data!;
+      }
+    }
+
+    // 获取列表数据
+    const resp: BaseResp<PageInlineResp<ArticleModel>> =
+      await HttpUtil.getInstance()
+        .get<PageInlineResp<ArticleModel>, undefined>(`/article/list/${page}/json?page_size=5`);
+    if (resp.errorCode === ErroCode.OK && resp.data) {
+      if (page === 0) {
+        this.homeArticleList.length = 0;
+      }
+      // 先拼接置顶的数据
+      if (topArticleList.length > 0) {
+        this.homeArticleList.push(...topArticleList);
+      }
+      // 拼接数据
+      this.homeArticleList.push(...resp.data!.datas);
+      // 如果接口调用成功了，再修改 page
+      this.page = page;
+      return true;
+    }
+    return false;
   }
 
   @Builder
   private listView() {
     List({ space: 10, scroller: this.scroller }) {
-      ForEach(this.banners, (item: HomeBannerModel, index: number) => {
+      ForEach(this.homeArticleList, (item: ArticleModel, index: number) => {
         ListItem() {
           Column() {
 
             Row() {
-              Text("干货")
+              Text(item.author.length === 0 ? item.shareUser : item.author)
                 .fontSize(13)
                 .fontColor($r('app.color.text_color'))
 
@@ -41,13 +83,15 @@ export struct HomeView {
                 .fontSize(13)
                 .fontColor($r('app.color.red_btn_bg_color'))
                 .margin({ left: 5, right: 5 })
+                .visibility(item.fresh ? Visibility.Visible : Visibility.None)
 
               Text("置顶")
                 .fontSize(13)
                 .fontColor($r('app.color.red_btn_bg_color'))
                 .margin({ left: 5, right: 5 })
+                .visibility(item.type > 0 ? Visibility.Visible : Visibility.None)
 
-              Text("发布时间")
+              Text(item.niceShareDate)
                 .fontSize(13)
                 .fontColor($r('app.color.text_color'))
                 .margin({ left: 5, right: 5 })
@@ -58,23 +102,25 @@ export struct HomeView {
             .justifyContent(FlexAlign.Start)
 
             Row() {
-              Text("文章标题很长很长文章标题很长很长文章标题很长很长文章标题很长很长")
+
+              Text(HtmlEntityReplace.replace(item.title))
                 .fontSize(15)
                 .fontColor($r('app.color.text_color_black'))
                 .fontWeight(FontWeight.Bold)
                 .layoutWeight(1)
 
-              Image('')
+              Image(item.envelopePic)
                 .width(70)
                 .height(70)
                 .alt('Image')
-                .visibility(Visibility.None)
+                .backgroundColor(Color.Gray)
+                .visibility(item.envelopePic.length === 0 ? Visibility.None : Visibility.Visible)
             }
             .alignItems(VerticalAlign.Top)
             .margin({ top: 4 })
 
             Row() {
-              Text("分类")
+              Text(item.superChapterName)
                 .fontColor($r('app.color.red_btn_bg_color'))
                 .fontSize(13)
 
@@ -92,12 +138,15 @@ export struct HomeView {
         .padding(10)
         .margin({ left: 10, right: 10 })
         .borderRadius(6)
-        .backgroundColor($r('app.color.article_bg'))
+        // .backgroundColor($r('app.color.article_bg'))
+        .backgroundColor(Color.Red)
       })
     }
+    .scrollBar(BarState.Off)
     .width('100%')
     .height('100%')
     .margin({ top: 10 })
+    .edgeEffect(EdgeEffect.None)
   }
 
   build() {
@@ -134,15 +183,28 @@ export struct HomeView {
 
       // 列表
       PullToRefresh({
-        data: this.banners,
+        data: $homeArticleList,
         scroller: this.scroller,
-        customList: () => this.listView(),
-        onRefresh: () => {
-          return Promise.resolve("刷新成功");
+        customList: () => {
+          this.listView();
         },
-        onLoadMore: () => {
-          return Promise.resolve('');
-        }
+        onRefresh: async () => {
+          const isSuccessful = await this.getHomeListData(0);
+          if (isSuccessful) {
+            return Promise.resolve("刷新成功");
+          } else {
+            return Promise.resolve('刷新失败');
+          }
+        },
+        onLoadMore: async () => {
+          const isSuccessful = await this.getHomeListData(this.page + 1);
+          if (isSuccessful) {
+            return Promise.resolve('');
+          }
+          return Promise.resolve(undefined);
+        },
+        customRefresh: null,
+        customLoad: null,
       })
         .layoutWeight(1)
     }
