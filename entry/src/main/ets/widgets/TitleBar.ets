@@ -29,7 +29,6 @@ export struct TitleBar {
         .textAlign(TextAlign.Center)
         .maxLines(1)
         .textOverflow({ overflow: TextOverflow.Ellipsis })
-        .padding({ left: 60, right: 60 })
         .layoutWeight(1)
 
       SymbolGlyph($r('sys.symbol.magnifyingglass'))

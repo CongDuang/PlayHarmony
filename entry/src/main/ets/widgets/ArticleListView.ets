@@ -5,6 +5,8 @@ import BaseResp, { ErroCode, PageInlineResp } from '../models/BaseResp';
 import HttpUtil from '../utils/HttpUtil';
 import { ArticleModel } from '../viewmodel/ArticleModel';
 import { CategoryModel } from '../viewmodel/CategoryModel';
+import router from '@ohos.router';
+import { DetailParam } from '../pages/ArticleDetailPage';
 
 @Component
 export struct ArticleList {
@@ -12,6 +14,7 @@ export struct ArticleList {
   @State page: number = 0;
   @State articleList: ArticleModel[] = [];
   private scroller: Scroller = new Scroller();
+  pageStack: NavPathStack = new NavPathStack();
 
   aboutToAppear(): void {
     this.getArticleListData(0);
@@ -115,6 +118,10 @@ export struct ArticleList {
           bottom: index === this.articleList.length - 1 ? 10 : 0,
           left: 10,
           right: 10
+        })
+        .onClick(() => {
+          Logger.debug("12313231");
+          router.pushUrl({ url: "pages/ArticleDetailPage", params: new DetailParam(item) })
         })
       })
     }
