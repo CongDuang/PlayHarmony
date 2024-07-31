@@ -2,6 +2,7 @@ import CommonConstants from '../../common/constants/CommonConstants'
 import MainPageTypeModel from '../../viewmodel/MainPageTypeModel'
 import { HomeView } from './view/HomeView';
 import { MineView } from './view/MineView';
+import { OfficialAccountView } from './view/OfficialAccountView';
 import { ProjectView } from './view/ProjectView';
 
 let storage = LocalStorage.getShared();
@@ -42,7 +43,7 @@ struct MainPage {
                 } else if (item.name === 'project') {
                   ProjectView();
                 } else if (item.name === 'official_account') {
-                  Text(item.content)
+                  OfficialAccountView();
                 } else {
                   MineView()
                 }
@@ -57,7 +58,6 @@ struct MainPage {
           .height('100%')
           .scrollable(false)
           .onTabBarClick((index: number) => {
-            console.info('main page click', index.toString())
             this.currentIndex = index;
           })
           .expandSafeArea([SafeAreaType.SYSTEM], [SafeAreaEdge.TOP, SafeAreaEdge.BOTTOM])

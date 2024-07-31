@@ -4,12 +4,11 @@ import Logger from '../../../common/Logger';
 import BaseResp, { ErroCode, PageInlineResp } from '../../../models/BaseResp';
 import HttpUtil from '../../../utils/HttpUtil'
 import { ArticleModel } from '../../../viewmodel/ArticleModel';
-import { CategoryModel } from '../../../viewmodel/CategoryModel'
-
+import { CategoryModel as CategoryModel } from '../../../viewmodel/CategoryModel'
 
 @Preview
 @Component
-export struct ProjectView {
+export struct OfficialAccountView {
   @State categoryList: CategoryModel[] = [];
   @State currentTabIndex: number = 0;
   topRectHeightPx: number = AppStorage.get<number>('topRectHeight') ?? 0;
@@ -23,7 +22,7 @@ export struct ProjectView {
    * 获取项目分类
    */
   private async getProjectCategory() {
-    const resp = await HttpUtil.getInstance().get<CategoryModel[], undefined>('/project/tree/json');
+    const resp = await HttpUtil.getInstance().get<CategoryModel[], undefined>('/wxarticle/chapters/json');
     if (resp.errorCode === ErroCode.OK && resp.data && resp.data.length > 0) {
       this.categoryList = resp.data;
     }

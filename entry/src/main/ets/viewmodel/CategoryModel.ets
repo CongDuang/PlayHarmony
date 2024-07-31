@@ -1,4 +1,4 @@
-export class ProjectCategoryModel {
+export class CategoryModel {
   courseId: number = -1;
   id: number = -1;
   name: string = "";

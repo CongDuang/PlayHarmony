@@ -49,7 +49,7 @@ export struct HomeView {
     // 获取列表数据
     const resp: BaseResp<PageInlineResp<ArticleModel>> =
       await HttpUtil.getInstance()
-        .get<PageInlineResp<ArticleModel>, undefined>(`/article/list/${page}/json?page_size=5`);
+        .get<PageInlineResp<ArticleModel>, undefined>(`/article/list/${page}/json?page_size=20`);
     if (resp.errorCode === ErroCode.OK && resp.data) {
       if (page === 0) {
         this.homeArticleList.length = 0;
@@ -113,7 +113,6 @@ export struct HomeView {
                 .width(70)
                 .height(70)
                 .alt('Image')
-                .backgroundColor(Color.Gray)
                 .visibility(item.envelopePic.length === 0 ? Visibility.None : Visibility.Visible)
             }
             .alignItems(VerticalAlign.Top)
@@ -124,7 +123,7 @@ export struct HomeView {
                 .fontColor($r('app.color.red_btn_bg_color'))
                 .fontSize(13)
 
-              Image($r('app.media.favorite_selected'))
+              Image(item.collect ? $r('app.media.favorite_selected') : $r('app.media.favorite'))
                 .width(20)
                 .height(20)
                 .margin({ top: 1 })
@@ -213,7 +212,6 @@ export struct HomeView {
       })
         .layoutWeight(1)
     }
-    .backgroundColor(Color.Gray)
     .width('100%')
     .height('100%')
     .justifyContent(FlexAlign.Start)
