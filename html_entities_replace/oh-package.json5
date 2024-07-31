@@ -4,7 +4,7 @@
   "description": "替换HTML字符串中存在的符号实体引用，为正确的符号",
   "main": "Index.ets",
   "author": "congduantools",
-  "license": "Apache-2.0",
+  "license": "MIT License",
   "compatibleSdkType": "OpenHarmony",
   "compatibleSdkVersion": "12",
   "obfuscated": false,
