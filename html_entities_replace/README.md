@@ -12,3 +12,8 @@ const newInputString = HtmlEntityReplace.replace(inputString);
 console.log(newInputString);
 // 输出：Android “edge to edge”特性-官方“沉浸式”方案实探
 ```
+
+# 下载安装
+```shell
+ohpm install html_entities_replace
+```

@@ -1,66 +1,38 @@
-import HttpUtil from '../../../utils/HttpUtil'
-import { TitleBar } from '../../../widgets/TitleBar'
-import BaseResp, { ErroCode, PageInlineResp } from '../../../models/BaseResp'
-import { HomeBannerModel } from '../../../viewmodel/HomeBannerModel'
-import { PullToRefresh } from '@ohos/pulltorefresh'
-import { ArticleModel } from '../../../viewmodel/ArticleModel'
+import { PullToRefresh } from '@ohos/pulltorefresh';
 import { HtmlEntityReplace } from 'html_entities_replace';
-import { ArticleList } from '../../../widgets/ArticleListView'
+import Logger from '../common/Logger';
+import BaseResp, { ErroCode, PageInlineResp } from '../models/BaseResp';
+import HttpUtil from '../utils/HttpUtil';
+import { ArticleModel } from '../viewmodel/ArticleModel';
+import { CategoryModel } from '../viewmodel/CategoryModel';
 
-@Preview
 @Component
-export struct HomeView {
-  @State banners: HomeBannerModel[] = [];
-  private scroller: Scroller = new Scroller();
+export struct ArticleList {
+  @Prop category: CategoryModel;
   @State page: number = 0;
-  @State homeArticleList: ArticleModel[] = [];
+  @State articleList: ArticleModel[] = [];
+  private scroller: Scroller = new Scroller();
 
-  aboutToAppear() {
-    // banner数据
-    this.getBannerData();
-    // 列表数据
-    this.getHomeListData(0);
+  aboutToAppear(): void {
+    this.getArticleListData(0);
   }
 
   /**
-   * 获取banner数据
+   * 获取项目列表数据
+   * @param page
    */
-  async getBannerData() {
-    const resp: BaseResp<HomeBannerModel[]> =
-      await HttpUtil.getInstance().get<HomeBannerModel[], undefined>('/banner/json');
-    if (resp.errorCode === ErroCode.OK && resp.data) {
-      this.banners = resp.data!;
-    }
-  }
-
-  /**
-   * 获取首页列表数据
-   * @param page 页码
-   * @returns
-   */
-  async getHomeListData(page: number): Promise<boolean> {
-    let topArticleList: ArticleModel[] = [];
-    if (page === 0) {
-      const topArticleResp = await HttpUtil.getInstance().get<ArticleModel[], undefined>('/article/top/json')
-      if (topArticleResp.errorCode === ErroCode.OK && topArticleResp.data) {
-        topArticleList = topArticleResp.data!;
-      }
-    }
-
+  private async getArticleListData(page: number): Promise<boolean> {
     // 获取列表数据
     const resp: BaseResp<PageInlineResp<ArticleModel>> =
       await HttpUtil.getInstance()
-        .get<PageInlineResp<ArticleModel>, undefined>(`/article/list/${page}/json?page_size=20`);
+        .get<PageInlineResp<ArticleModel>, undefined>(`/article/list/${page}/json?page_size=20${this.category ?
+          `cid=${this.category.id}` : ''}`);
     if (resp.errorCode === ErroCode.OK && resp.data) {
       if (page === 0) {
-        this.homeArticleList.length = 0;
-      }
-      // 先拼接置顶的数据
-      if (topArticleList.length > 0) {
-        this.homeArticleList.push(...topArticleList);
+        this.articleList.length = 0;
       }
       // 拼接数据
-      this.homeArticleList.push(...resp.data!.datas);
+      this.articleList.push(...resp.data!.datas);
       // 如果接口调用成功了，再修改 page
       this.page = page;
       return true;
@@ -71,7 +43,7 @@ export struct HomeView {
   @Builder
   private listView() {
     List({ space: 10, scroller: this.scroller }) {
-      ForEach(this.homeArticleList, (item: ArticleModel, index: number) => {
+      ForEach(this.articleList, (item: ArticleModel, index: number) => {
         ListItem() {
           Column() {
 
@@ -140,7 +112,7 @@ export struct HomeView {
         .backgroundColor($r('app.color.article_bg'))
         .margin({
           top: index === 0 ? 10 : 0,
-          bottom: index === this.homeArticleList.length - 1 ? 10 : 0,
+          bottom: index === this.articleList.length - 1 ? 10 : 0,
           left: 10,
           right: 10
         })
@@ -154,43 +126,30 @@ export struct HomeView {
 
   build() {
     Column() {
-      TitleBar({
-        title: $r('app.string.home'),
-        showSearch: true,
-        onSearch: () => {
-          // TODO to search page
-          console.info('home view clicked search')
-        }
+      PullToRefresh({
+        data: this.articleList,
+        scroller: this.scroller,
+        customList: () => {
+          this.listView();
+        },
+        onRefresh: async () => {
+          const isSuccessful = await this.getArticleListData(0);
+          if (isSuccessful) {
+            return Promise.resolve("刷新成功");
+          } else {
+            return Promise.resolve('刷新失败');
+          }
+        },
+        onLoadMore: async () => {
+          const isSuccessful = await this.getArticleListData(this.page + 1);
+          if (isSuccessful) {
+            return Promise.resolve('');
+          }
+          return Promise.resolve(undefined);
+        },
+        customRefresh: null,
+        customLoad: null,
       })
-
-      // banner
-      Row() {
-        Swiper() {
-          ForEach(this.banners, (item: HomeBannerModel, index: number) => {
-            Image(item.imagePath)
-              .width('100%')
-              .height('100%')
-              .objectFit(ImageFit.Fill)
-          })
-        }
-        .width('100%')
-        .height(180)
-        .loop(true)
-        .backgroundColor(Color.Gray)
-        .borderRadius(10)
-        .autoPlay(true)
-      }.width('100%')
-      .padding({
-        left: 10,
-        right: 10,
-        top: 10
-      })
-
-      // 列表
-      ArticleList({})
     }
-    .width('100%')
-    .height('100%')
-    .justifyContent(FlexAlign.Start)
   }
 }
