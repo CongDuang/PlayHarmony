@@ -19,7 +19,7 @@ export struct HomeView {
     // banner数据
     this.getBannerData();
     // 列表数据
-    this.getHomeListData(0);
+    // this.getHomeListData(0);
   }
 
   /**

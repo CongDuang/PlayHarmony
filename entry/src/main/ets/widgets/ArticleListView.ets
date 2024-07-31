@@ -25,6 +25,16 @@ export struct ArticleList {
    * @param page
    */
   private async getArticleListData(page: number): Promise<boolean> {
+    let topArticleList: ArticleModel[] = [];
+    if (!this.category) {
+      if (page === 0) {
+        const topArticleResp = await HttpUtil.getInstance().get<ArticleModel[], undefined>('/article/top/json')
+        if (topArticleResp.errorCode === ErroCode.OK && topArticleResp.data) {
+          topArticleList = topArticleResp.data!;
+        }
+      }
+    }
+
     // 获取列表数据
     const resp: BaseResp<PageInlineResp<ArticleModel>> =
       await HttpUtil.getInstance()
@@ -34,6 +44,12 @@ export struct ArticleList {
       if (page === 0) {
         this.articleList.length = 0;
       }
+
+      // 先拼接置顶的数据
+      if (topArticleList.length > 0) {
+        this.articleList.push(...topArticleList);
+      }
+
       // 拼接数据
       this.articleList.push(...resp.data!.datas);
       // 如果接口调用成功了，再修改 page
