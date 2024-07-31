@@ -13,6 +13,8 @@ export struct MineHeader {
         Image(this.avatarImgUrl ?? $r('app.media.mine_default_avatar'))
           .width(70)
           .height(70)
+          .clip(true)
+          .borderRadius(35)
           .objectFit(ImageFit.Fill)
 
         Column() {

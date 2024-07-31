@@ -164,25 +164,27 @@ export struct HomeView {
       })
 
       // banner
-      Swiper() {
-        ForEach(this.banners, (item: HomeBannerModel, index: number) => {
-          Image(item.imagePath)
-            .width('100%')
-            .height('100%')
-            .objectFit(ImageFit.Fill)
-        })
-      }
-      .width(355)
-      .height(180)
-      .loop(true)
-      .backgroundColor(Color.Gray)
-      .borderRadius(10)
-      .margin({
+      Row() {
+        Swiper() {
+          ForEach(this.banners, (item: HomeBannerModel, index: number) => {
+            Image(item.imagePath)
+              .width('100%')
+              .height('100%')
+              .objectFit(ImageFit.Fill)
+          })
+        }
+        .width('100%')
+        .height(180)
+        .loop(true)
+        .backgroundColor(Color.Gray)
+        .borderRadius(10)
+        .autoPlay(true)
+      }.width('100%')
+      .padding({
         left: 10,
         right: 10,
-        top: 10,
+        top: 10
       })
-      .autoPlay(true)
 
       // 列表
       PullToRefresh({
@@ -211,6 +213,7 @@ export struct HomeView {
       })
         .layoutWeight(1)
     }
+    .backgroundColor(Color.Gray)
     .width('100%')
     .height('100%')
     .justifyContent(FlexAlign.Start)

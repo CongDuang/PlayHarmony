@@ -7,7 +7,7 @@ import { MineView } from './view/MineView';
 @Component
 struct MainPage {
   tabController = new TabsController();
-  @State currentIndex: number = 3;
+  @State currentIndex: number = 0;
 
   @Builder
   tabBarBuilder(item: MainPageTypeModel, index: number) {
