@@ -26,7 +26,7 @@ export struct ArticleList {
     const resp: BaseResp<PageInlineResp<ArticleModel>> =
       await HttpUtil.getInstance()
         .get<PageInlineResp<ArticleModel>, undefined>(`/article/list/${page}/json?page_size=20${this.category ?
-          `cid=${this.category.id}` : ''}`);
+          `&cid=${this.category.id}` : ''}`);
     if (resp.errorCode === ErroCode.OK && resp.data) {
       if (page === 0) {
         this.articleList.length = 0;

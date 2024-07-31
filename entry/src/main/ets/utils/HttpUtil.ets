@@ -33,15 +33,12 @@ export default class HttpUtil {
       return response;
     }, (error: AxiosError) => {
       Logger.error('response 请求错误：', JSON.stringify(error));
-      // Logger.error('response 请求错误：', error.status?.toString() ?? "");
-      Logger.error(`response 响应错误, ${error.status}`);
-      Logger.error(`response 响应错误, ${error.message}`);
-      Logger.error(`response 响应错误, ${error.code}`);
-      Logger.error(`response 响应错误, ${error.config?.baseURL}`);
-      // if (error.status === 400) {
-      return Promise.resolve(new BaseResp(error.status ?? -1, error.stack ?? "", null))
-      // }
-      // return Promise.reject(error);
+      if (error.response?.status === 400) {
+        const errorResp = new BaseResp(error.status ?? -1, error.stack ?? "发送了错误", null);
+        error.response.data = errorResp;
+        return Promise.resolve(error.response);
+      }
+      return Promise.reject(error);
     })
   }
 
