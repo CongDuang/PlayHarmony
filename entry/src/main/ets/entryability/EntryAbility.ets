@@ -1,6 +1,7 @@
 import { AbilityConstant, UIAbility, Want } from '@kit.AbilityKit';
 import { hilog } from '@kit.PerformanceAnalysisKit';
 import { window } from '@kit.ArkUI';
+import Logger from '../common/Logger';
 
 export default class EntryAbility extends UIAbility {
   onCreate(want: Want, launchParam: AbilityConstant.LaunchParam): void {
@@ -21,7 +22,26 @@ export default class EntryAbility extends UIAbility {
         return;
       }
       hilog.info(0x0000, 'testTag', 'Succeeded in loading the content.');
+
+      // 获取应用主窗口
+      let windowClass = windowStage.getMainWindowSync();
+      // 1. 设置窗口全屏
+      // let isLayoutFullScreen = true;
+      // windowClass.setWindowLayoutFullScreen(isLayoutFullScreen)
+      //   .then(() => {
+      //     console.info("成功设置窗口布局全屏！");
+      //   }).catch((err: BusinessError) => {
+      //   console.error("设置窗口布局全屏模式失败，原因：" + JSON.stringify(err));
+      // });
+
+      // 2. 获取布局避让遮挡的区域
+      let type = window.AvoidAreaType.TYPE_SYSTEM; // 以导航条避让为例
+      let avoidArea = windowClass.getWindowAvoidArea(type);
+      let topRectHeight = avoidArea.topRect.height;
+      Logger.debug('topRectHeight, ability', topRectHeight.toString());
+      AppStorage.setOrCreate("topRectHeight", topRectHeight);
     });
+
   }
 
   onWindowStageDestroy(): void {

@@ -23,9 +23,9 @@ export default class EntryAbility extends UIAbility {
       }
       hilog.info(0x0000, 'testTag', 'Succeeded in loading the content.');
 
-      // // 获取应用主窗口
-      // let windowClass = windowStage.getMainWindowSync();
-      // // 1. 设置窗口全屏
+      // 获取应用主窗口
+      let windowClass = windowStage.getMainWindowSync();
+      // 1. 设置窗口全屏
       // let isLayoutFullScreen = true;
       // windowClass.setWindowLayoutFullScreen(isLayoutFullScreen)
       //   .then(() => {
@@ -33,12 +33,14 @@ export default class EntryAbility extends UIAbility {
       //   }).catch((err: BusinessError) => {
       //   console.error("设置窗口布局全屏模式失败，原因：" + JSON.stringify(err));
       // });
-      //
-      // // 2. 获取布局避让遮挡的区域
-      // let type = window.AvoidAreaType.TYPE_NAVIGATION_INDICATOR; // 以导航条避让为例
-      // let avoidArea = windowClass.getWindowAvoidArea(type);
-      // let bottomRectHeight = avoidArea.bottomRect.height;
-      // AppStorage.setOrCreate("bottomRectHeight", bottomRectHeight);
+
+      // 2. 获取布局避让遮挡的区域
+      let type = window.AvoidAreaType.TYPE_NAVIGATION_INDICATOR; // 以导航条避让为例
+      let avoidArea = windowClass.getWindowAvoidArea(type);
+      let bottomRectHeight = avoidArea.bottomRect.height;
+      let topRectHeight = avoidArea.topRect.height;
+      AppStorage.setOrCreate("bottomRectHeight", bottomRectHeight);
+      AppStorage.setOrCreate("topRectHeight", topRectHeight);
     });
   }
 

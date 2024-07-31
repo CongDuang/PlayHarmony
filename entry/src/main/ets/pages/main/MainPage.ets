@@ -4,7 +4,9 @@ import { HomeView } from './view/HomeView';
 import { MineView } from './view/MineView';
 import { ProjectView } from './view/ProjectView';
 
-@Entry
+let storage = LocalStorage.getShared();
+
+@Entry(storage)
 @Component
 struct MainPage {
   tabController = new TabsController();
