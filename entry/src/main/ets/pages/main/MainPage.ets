@@ -2,12 +2,13 @@ import CommonConstants from '../../common/constants/CommonConstants'
 import MainPageTypeModel from '../../viewmodel/MainPageTypeModel'
 import { HomeView } from './view/HomeView';
 import { MineView } from './view/MineView';
+import { ProjectView } from './view/ProjectView';
 
 @Entry
 @Component
 struct MainPage {
   tabController = new TabsController();
-  @State currentIndex: number = 0;
+  @State currentIndex: number = 1;
 
   @Builder
   tabBarBuilder(item: MainPageTypeModel, index: number) {
@@ -37,7 +38,7 @@ struct MainPage {
                 if (item.name === 'home') {
                   HomeView()
                 } else if (item.name === 'project') {
-                  Text(item.content)
+                  ProjectView();
                 } else if (item.name === 'official_account') {
                   Text(item.content)
                 } else {
